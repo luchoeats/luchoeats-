@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lucho Eats</title>
+<style>
+    :root {
+        --primary-color: #f5a623;
+        --secondary-color: #fff8f0;
+        --accent-color: #d35400;
+        --text-color: #333;
+        --card-bg: #fff;
+        --border-radius: 10px;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-image: url('images/patacones.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: var(--text-color);
+        padding: 0;
+    }
+    header {
+        background-color: var(--primary-color);
+        padding: 20px;
+        text-align: center;
+        color: white;
+    }
+    header img {
+        width: 150px;
+        margin-bottom: 10px;
+    }
+    main {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: var(--border-radius);
+    }
+    h2 {
+        color: var(--accent-color);
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .item {
+        background-color: var(--card-bg);
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .item button {
+        padding: 6px 12px;
+        background-color: var(--primary-color);
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .item button:hover {
+        background-color: var(--accent-color);
+    }
+    #carrito {
+        margin-top: 30px;
+        padding: 15px;
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #carrito ul {
+        list-style-type: none;
+        margin-top: 10px;
+    }
+    .footer {
+        margin-top: 40px;
+        padding: 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-align: center;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+    }
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+        .item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .item button {
+            margin-top: 10px;
+        }
+    }
+
+    #contacto {
+        margin-top: 40px;
+        padding: 20px;
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    #contacto h2 {
+        margin-bottom: 15px;
+    }
+    #contacto form {
+        display: flex;
+        flex-direction: column;
+    }
+    #contacto input, #contacto textarea {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+    #contacto button {
+        padding: 10px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #contacto button:hover {
+        background-color: var(--accent-color);
+    }
+</style>
+</head>
+<body>
+<header>
+<img alt="Lucho Eats Logo" src="images/lucho.png"/>
+<h1>Comida con sabor autentico</h1>
+</header>
+<main>
+<h2>Menú</h2>
+<div class="item">Cayeye - $8000 <button onclick="agregarAlCarrito('Cayeye', 8000)">Añadir</button></div>
+<div class="item">Chicharrón - $7000 <button onclick="agregarAlCarrito('Chicharrón', 7000)">Añadir</button></div>
+<div class="item">Patacón - $5000 <button onclick="agregarAlCarrito('Patacón', 5000)">Añadir</button></div>
+<h2>Adicionales</h2>
+<div class="item">Patacón <button onclick="agregarAlCarrito('Adicional: Patacón', 2000)">Añadir</button></div>
+<div class="item">Queso <button onclick="agregarAlCarrito('Adicional: Queso', 1500)">Añadir</button></div>
+<div class="item">Chicharrón <button onclick="agregarAlCarrito('Adicional: Chicharrón', 2500)">Añadir</button></div>
+<div class="item">Hogao <button onclick="agregarAlCarrito('Adicional: Hogao', 1000)">Añadir</button></div>
+<div id="carrito">
+<h3>Carrito</h3>
+<ul id="lista-carrito"></ul>
+<strong>Total: $<span id="total">0</span></strong><br/>
+<button onclick="enviarPedido()" style="margin-top: 10px;">Enviar pedido</button>
+<!-- Botón para reiniciar el carrito -->
+<button onclick="reiniciarCarrito()" style="margin-top: 10px; background-color: #e74c3c;">Reiniciar carrito</button>
+</div>
+<section class="container" id="contacto">
+<h2>Contáctanos si posees algun problema ;)</h2>
+<form action="https://formspree.io/f/xpwdpvvv" method="POST">
+  <input name="nombre" placeholder="Tu Nombre" required="" type="text"/>
+  <input name="correo" placeholder="Tu Correo" required="" type="email"/>
+  <textarea name="mensaje" placeholder="Escribe tu mensaje aquí" required=""></textarea>
+  <button type="submit">Enviar</button>
+</form>
+</section>
+<div class="footer">
+<p><strong>Horario de atención:</strong> Respondo después de las 11:00 am hasta las 7:00 pm</p>
+</div>
+</main>
+<script>
+    let total = 0;
+    const listaCarrito = document.getElementById('lista-carrito');
+    const totalElemento = document.getElementById('total');
+
+    function agregarAlCarrito(nombre, precio) {
+        const item = document.createElement('li');
+        item.textContent = `${nombre} - $${precio}`;
+        listaCarrito.appendChild(item);
+        total += precio;
+        totalElemento.textContent = total;
+    }
+
+    listaCarrito.addEventListener('click', function(e) {
+        if (e.target.tagName === 'LI') {
+            const precio = parseInt(e.target.textContent.split('$')[1]);
+            total -= precio;
+            totalElemento.textContent = total;
+            e.target.remove();
+        }
+    });
+
+    function enviarPedido() {
+        const nombre = prompt("¿Cuál es tu nombre?");
+        if (!nombre) return;
+        
+        let mensaje = `Pedido de ${nombre}:%0A`;
+        const items = document.querySelectorAll("#lista-carrito li");
+        items.forEach(item => {
+            mensaje += `- ${item.textContent}%0A`;
+        });
+        mensaje += `Total: $${total}%0A`;
+
+        // Llenamos el campo de mensaje con el pedido
+        document.querySelector("textarea[name='mensaje']").value = mensaje;
+        document.querySelector("form").submit();
+    }
+
+    function reiniciarCarrito() {
+        listaCarrito.innerHTML = '';
+        total = 0;
+        totalElemento.textContent = total;
+    }
+</script>
+</body>
+</html>
